@@ -6,7 +6,7 @@
  *
  * Description: Header file for TM4C123GH6PM Microcontroller - Registers Base Addred and offsets for Different Registers.
  *
- * Author: Mohamed Tarek
+ * Author: Hazem Hisham
  ******************************************************************************/
 
 #ifndef PORT_REGS_H
@@ -16,7 +16,7 @@
 #include "Std_Types.h"
 
 /*******************************************************************************
- *                              Module Definitions                             *
+ *                              Registers Addreses                             *
  *******************************************************************************/
 
 /* GPIO Registers base addresses */
