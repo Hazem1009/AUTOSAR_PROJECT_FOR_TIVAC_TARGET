@@ -2,15 +2,15 @@
  *
  * Module: Port
  *
- * File Name: Port.h
+ * File Name: Port_regs.h
  *
- * Description: Header file for TM4C123GH6PM Microcontroller - Port Driver.
+ * Description: Header file for TM4C123GH6PM Microcontroller - Registers Base Addred and offsets for Different Registers.
  *
  * Author: Mohamed Tarek
  ******************************************************************************/
 
-#ifndef PORT_H
-#define PORT_H
+#ifndef PORT_REGS_H
+#define PORT_REGS_H
 
 #include "Common_Macros.h"
 #include "Std_Types.h"
@@ -38,55 +38,4 @@
 #define PORT_COMMIT_REG_OFFSET            0x524
 #define PORT_ANALOG_MODE_SEL_REG_OFFSET   0x528
 #define PORT_CTL_REG_OFFSET               0x52C
-
-/*******************************************************************************
- *                              Module Data Types                              *
- *******************************************************************************/
-
-/* Description: Enum to hold PIN direction */
-typedef enum
-{
-    INPUT,OUTPUT
-}Port_PinDirection;
-
-/* Description: Enum to hold internal resistor type for PIN */
-typedef enum
-{
-    OFF,PULL_UP,PULL_DOWN
-}Port_InternalResistor;
-
-/* Description: Structure to configure each individual PIN:
- *	1. the PORT Which the pin belongs to. 0, 1, 2, 3, 4 or 5
- *	2. the number of the pin in the PORT.
- *      3. the direction of pin --> INPUT or OUTPUT
- *      4. the internal resistor --> Disable, Pull up or Pull down
- */
-typedef struct 
-{
-    uint8 port_num; 
-    uint8 pin_num; 
-    Port_PinDirection direction;
-    Port_InternalResistor resistor;
-    uint8 initial_value;
-}Port_ConfigType;
-
-/*******************************************************************************
- *                      Function Prototypes                                    *
- *******************************************************************************/
-
-/************************************************************************************
-* Service Name: Port_SetupGpioPin
-* Sync/Async: Synchronous
-* Reentrancy: reentrant
-* Parameters (in): ConfigPtr - Pointer to post-build configuration data
-* Parameters (inout): None
-* Parameters (out): None
-* Return value: None
-* Description: Function to Setup the pin configuration:
-*              - Setup the pin as Digital GPIO pin
-*              - Setup the direction of the GPIO pin
-*              - Setup the internal resistor for i/p pin
-************************************************************************************/
-void Port_SetupGpioPin(const Port_ConfigType *ConfigPtr );
-
-#endif /* PORT_H */
+#endif /* PORT_REGS_H */
