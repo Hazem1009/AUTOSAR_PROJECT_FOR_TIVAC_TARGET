@@ -135,7 +135,7 @@ typedef enum
 *Range:Covers Target Modes                                                      *                                        
 *Description: Description: Different port pin modes.                            *                       
 *********************************************************************************/
-typedef uint8 Port_PinModeType
+typedef uint8 Port_PinModeType;
 /* Description: Enum to hold internal resistor type for PIN */
 typedef enum
 {
