@@ -46,6 +46,7 @@
  *******************************************************************************/
 /* Standard AUTOSAR types */
 #include "Std_Types.h"
+#include "Port_Regs.h"
 
 /* AUTOSAR checking between Std Types and Port Modules */
 #if ((STD_TYPES_AR_RELEASE_MAJOR_VERSION != PORT_AR_RELEASE_MAJOR_VERSION)\
