@@ -129,7 +129,18 @@ typedef enum
 {
     PORT_PIN_IN,PORT_PIN_OUT
 }Port_PinDirectionType;
-
+/********************************************************************************
+*Name: Changeability
+Type: Enumeration 
+Range: UNCHANGEABLE Sets PIN UNCHANGEABLE MODE OR DIR. 
+CHANGEABLE Sets port pin as CHANGEABLE MODE OR DIR. 
+Justification for Adding this enumeration: For readability in Port_PBcfg.h file
+in configuration strucutre                                       
+*********************************************************************************/
+typedef enum
+{
+  UNCHANGEABLE,CHANGEABLE
+}Changeability;
 /********************************************************************************
 *Name: Port_PinModeType                                                         *            
 *Type: uint                                                                     *
