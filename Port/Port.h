@@ -167,7 +167,7 @@ typedef struct
 /* Data Structure required for initializing the Port Driver */
 typedef struct Port_ConfigType
 {
-	Port_ConfigPin pinsConf[MCU_PINS_NUM];
+	Port_ConfigPin pinsConf[PORT_NUMBER_OF_PORT_PINS];
 }Port_ConfigType;
 
 /*******************************************************************************
@@ -187,7 +187,7 @@ Description: Initializes the Port Driver module
 ************************************************************************************/
 void Port_Init( const Port_ConfigType* ConfigPtr );
 
-#if(PORT_SET_DIRECTION_API==STD_ON)
+#if(PORT_SET_PIN_DIRECTION_API==STD_ON)
 /************************************************************************************
 Service ID[hex]: 0x01 
 Sync/Async: Synchronous 

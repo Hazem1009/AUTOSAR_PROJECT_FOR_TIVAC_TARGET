@@ -31,13 +31,11 @@
 
 /* Pre-compile option for Version Info API */
 #define PORT_VERSION_INFO_API                (STD_ON)
-
-#define MCU_PINS_NUM                          (43U)
-
 /*Pre-processor switch to enable / disable the use of the function Port_SetPinDirection()*/
-#define PORT_SET_DIRECTION_API               (STD_ON)
-/**/
-#define PORT_VERSION_INFO_API                (STD_ON)
-/**/
+#define PORT_SET_PIN_DIRECTION_API           (STD_ON)
+/*Pre-processor switch to enable / disable the use of the function Port_SetPinMode()*/
 #define PORT_SET_PIN_MODE_API                (STD_ON)
+/*Pre-processor switch to enable / disable the API to read out the modules version information*/
+#define PORT_VERSION_INFO_API                (STD_ON)
+#define PORT_NUMBER_OF_PORT_PINS             (43U)
 #endif
