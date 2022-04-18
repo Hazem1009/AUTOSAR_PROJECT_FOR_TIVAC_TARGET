@@ -48,10 +48,6 @@ LMI_ResetMode=0x00000001
 ShowArgs=0
 [Disassembly]
 MixedMode=1
-[Log file]
-LoggingEnabled=_ 0
-LogFile=_ ""
-Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -61,6 +57,10 @@ Mode=0
 Graph=0
 Symbiont=0
 Exclusions=
+[Log file]
+LoggingEnabled=_ 0
+LogFile=_ ""
+Category=_ 0
 [Disassemble mode]
 mode=0
 [Breakpoints]

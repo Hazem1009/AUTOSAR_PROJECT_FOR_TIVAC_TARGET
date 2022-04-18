@@ -1949,6 +1949,15 @@
     <name>$PROJ_DIR$\Port.h</name>
   </file>
   <file>
+    <name>$PROJ_DIR$\Port_Cfg.h</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\Port_PBcfg.c</name>
+  </file>
+  <file>
+    <name>$PROJ_DIR$\Port_Regs.h</name>
+  </file>
+  <file>
     <name>$PROJ_DIR$\Std_Types.h</name>
   </file>
   <file>
