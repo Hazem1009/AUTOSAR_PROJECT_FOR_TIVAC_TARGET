@@ -226,7 +226,7 @@ Parameters (out): None
 Return value: None 
 Description: Refreshes port direction.
 ************************************************************************************/
-void Port_RefreshPortDirection(void) ;
+void Port_RefreshPortDirection(void);
 
 #if(PORT_VERSION_INFO_API==STD_ON)
 /*******************************************************************************
@@ -243,7 +243,7 @@ void Port_RefreshPortDirection(void) ;
 void Port_GetVersionInfo(Std_VersionInfoType* versioninfo);
 
 #endif
-#if(PORT_SET_PIN_MODE_API==STD_ON)
+
 /*******************************************************************************
 * Service Name: Port_SetPinMode
 * Service ID[HEX]: 0x04
@@ -256,6 +256,7 @@ void Port_GetVersionInfo(Std_VersionInfoType* versioninfo);
 * Return value: None
 * Description: Sets the port pin mode
 ********************************************************************************/
+#if(PORT_SET_PIN_MODE_API==STD_ON)
 void Port_SetPinMode(Port_PinType Pin,Port_PinModeType Mode) ;
 #endif
 /*******************************************************************************
