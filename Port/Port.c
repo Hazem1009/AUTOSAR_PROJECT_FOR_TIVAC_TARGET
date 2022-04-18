@@ -414,4 +414,66 @@ void Port_SetPinMode(Port_PinType Pin,Port_PinModeType Mode)
         /*SETs the PMCx Bits for the specific mode*/ 
         *(volatile uint32 *)((volatile uint8 *)Port_Ptr + PORT_CTL_REG_OFFSET) |= (Port_Pin_Config[Pin].pin_mode << (Port_Pin_Config[Pin].pin_num * 4));     
     }
+}
 #endif
+/************************************************************************************
+Service name: Port_RefreshPortDirection 
+Service ID[hex]: 0x02 
+Sync/Async: Synchronous 
+Reentrancy: Non Reentrant 
+Parameters (in): None 
+Parameters (inout): None 
+Parameters (out): None 
+Return value: None 
+Description: Refreshes port direction.
+************************************************************************************/
+void Port_RefreshPortDirection(void)
+{
+    #if(STD_ON==PORT_DEV_ERROR_DETECT)
+        if(PORT_NOT_INITIALIZED==Port_Status)
+        {
+           Det_ReportError(PORT_MODULE_ID,PORT_INSTANCE_ID,PORT_REFRESH_PORT_DIRECTION_SID,PORT_E_UNINIT);
+        }
+        else
+        {
+           /*Do nothing*/
+        }
+    #endif
+    Port_PinType pin_index=0;
+    volatile uint32 * Port_Ptr = NULL_PTR; /* point to the required Port Registers base address */
+    for(pin_index=0;pin_index<PORT_NUMBER_OF_PORT_PINS;pin_index++)
+    {
+        switch(Port_Pin_Config[pin_index].port_num)
+        {
+            case  PORTA_ID: Port_Ptr = (volatile uint32 *)GPIO_PORTA_BASE_ADDRESS; /* PORTA Base Address */
+            break;
+            case  PORTB_ID: Port_Ptr = (volatile uint32 *)GPIO_PORTB_BASE_ADDRESS; /* PORTB Base Address */
+            break;
+            case  PORTC_ID: Port_Ptr = (volatile uint32 *)GPIO_PORTC_BASE_ADDRESS; /* PORTC Base Address */
+            break;
+            case  PORTD_ID: Port_Ptr = (volatile uint32 *)GPIO_PORTD_BASE_ADDRESS; /* PORTD Base Address */
+            break;
+            case  PORTE_ID: Port_Ptr = (volatile uint32 *)GPIO_PORTE_BASE_ADDRESS; /* PORTE Base Address */
+            break;
+            case  PORTF_ID: Port_Ptr = (volatile uint32 *)GPIO_PORTF_BASE_ADDRESS; /* PORTF Base Address */
+            break;
+        }
+        if(CHANGEABLE==Port_Pin_Config[pin_index].pin_direction_changeable)
+        {
+            /*DO NOTHING IF PIN DIRECTION IS CHANGEABLE*/
+        }
+        else
+        {
+            if(PORT_PIN_IN==Port_Pin_Config[pin_index].direction)
+            {
+                 /* clear the corresponding bit in the GPIODIR register to configure it as input pin */
+                CLEAR_BIT(*(volatile uint32*)((volatile uint8*)Port_Ptr+PORT_DIR_REG_OFFSET),Port_Pin_Config[pin_index].pin_num);
+            }
+            else
+            {
+                 /* Set the corresponding bit in the GPIODIR register to configure it as Output pin */
+                SET_BIT(*(volatile uint32*)((volatile uint8*)Port_Ptr+PORT_DIR_REG_OFFSET),Port_Pin_Config[pin_index].pin_num);
+            }
+        }
+    }    
+}
