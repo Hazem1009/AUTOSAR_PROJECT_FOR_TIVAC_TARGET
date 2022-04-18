@@ -277,6 +277,10 @@ void Port_SetPinDirection(Port_PinType Pin,Port_PinDirectionType Direction)
         {
             Det_ReportError(PORT_MODULE_ID,PORT_INSTANCE_ID,PORT_SET_PIN_DIRECTION_SID,PORT_E_DIRECTION_UNCHANGEABLE);
         }
+        else
+        {
+
+        }
     #endif
     volatile uint32 * Port_Ptr = NULL_PTR; /* point to the required Port Registers base address */
     switch(Port_Pin_Config[Pin].port_num){
@@ -323,6 +327,91 @@ void Port_SetPinDirection(Port_PinType Pin,Port_PinDirectionType Direction)
 #if(STD_ON==PORT_SET_PIN_MODE_API)
 void Port_SetPinMode(Port_PinType Pin,Port_PinModeType Mode)
 {
+    #if(PORT_DEV_ERROR_DETECT)
 
-}
+        if(PORT_NOT_INITIALIZED==Port_Status)
+        {
+            Det_ReportError(PORT_MODULE_ID,PORT_INSTANCE_ID,PORT_SET_PIN_MODE_SID,PORT_E_UNINIT);
+        }
+        else
+        {
+            /*Do nothing*/
+        }
+        if(PORT_NUMBER_OF_PORT_PINS<=Pin)
+        {
+            Det_ReportError(PORT_MODULE_ID,PORT_INSTANCE_ID,PORT_SET_PIN_MODE_SID,PORT_E_PARAM_PIN);
+        }
+        else
+        {
+            /*Do nothing*/   
+        }
+        if(PORT_NUMBER_OF_PINS_MODES <= Mode)
+        {
+            Det_ReportError(PORT_MODULE_ID,PORT_INSTANCE_ID,PORT_SET_PIN_MODE_SID,PORT_E_PARAM_INVALID_MODE);
+        }
+        else
+        {
+            /*Do nothing*/
+        }
+        if(UNCHANGEABLE==Port_Pin_Config[Pin].pin_mode_changeable)
+        {
+            Det_ReportError(PORT_MODULE_ID,PORT_INSTANCE_ID,PORT_SET_PIN_MODE_SID,PORT_E_MODE_UNCHANGEABLE);
+        }
+        else
+        {
+
+        }
+    #endif
+    volatile uint32 * Port_Ptr = NULL_PTR; /* point to the required Port Registers base address */
+    switch(Port_Pin_Config[Pin].port_num){
+         case  PORTA_ID: Port_Ptr = (volatile uint32 *)GPIO_PORTA_BASE_ADDRESS; /* PORTA Base Address */
+         break;
+         case  PORTB_ID: Port_Ptr = (volatile uint32 *)GPIO_PORTB_BASE_ADDRESS; /* PORTB Base Address */
+         break;
+         case  PORTC_ID: Port_Ptr = (volatile uint32 *)GPIO_PORTC_BASE_ADDRESS; /* PORTC Base Address */
+         break;
+         case  PORTD_ID: Port_Ptr = (volatile uint32 *)GPIO_PORTD_BASE_ADDRESS; /* PORTD Base Address */
+         break;
+         case  PORTE_ID: Port_Ptr = (volatile uint32 *)GPIO_PORTE_BASE_ADDRESS; /* PORTE Base Address */
+         break;
+         case  PORTF_ID: Port_Ptr = (volatile uint32 *)GPIO_PORTF_BASE_ADDRESS; /* PORTF Base Address */
+         break;
+    }
+    
+    if(PORT_PIN_MODE_ANALOG==Mode)
+    {
+/* Set the corresponding bit in the GPIOAMSEL register to enable analog functionality on this pin */
+        SET_BIT(*(volatile uint32*)((volatile uint8*)Port_Ptr+PORT_ANALOG_MODE_SEL_REG_OFFSET),Port_Pin_Config[Pin].pin_num);
+        /* clear the corresponding bit in the GPIODEN register to disable digital functionality on this pin */
+        CLEAR_BIT(*(volatile uint32*)((volatile uint8*)Port_Ptr+PORT_DIGITAL_ENABLE_REG_OFFSET),Port_Pin_Config[Pin].pin_num);
+        /* Disable Alternative function for this pin by clear the corresponding bit in GPIOAFSEL register */
+            CLEAR_BIT(*(volatile uint32*)((volatile uint8*)Port_Ptr+PORT_ALT_FUNC_REG_OFFSET),Port_Pin_Config[Pin].pin_num);
+            /* Clear the PMCx bits for this pin */
+            *(volatile uint32 *)((volatile uint8 *)Port_Ptr + PORT_CTL_REG_OFFSET) &= ~(0x0000000F << (Port_Pin_Config[Pin].pin_num * 4));     /* Clear the PMCx bits for this pin */
+    }
+    else if(PORT_PIN_MODE_DIO==Mode)
+    {
+        /* Clear the corresponding bit in the GPIOAMSEL register to disable analog functionality on this pin */
+            CLEAR_BIT(*(volatile uint32*)((volatile uint8*)Port_Ptr+PORT_ANALOG_MODE_SEL_REG_OFFSET),Port_Pin_Config[Pin].pin_num);
+            /* Set the corresponding bit in the GPIODEN register to enable digital functionality on this pin */
+            SET_BIT(*(volatile uint32*)((volatile uint8*)Port_Ptr+PORT_DIGITAL_ENABLE_REG_OFFSET),Port_Pin_Config[Pin].pin_num);
+            /* Disable Alternative function for this pin by clear the corresponding bit in GPIOAFSEL register */
+            CLEAR_BIT(*(volatile uint32*)((volatile uint8*)Port_Ptr+PORT_ALT_FUNC_REG_OFFSET),Port_Pin_Config[Pin].pin_num);
+            /* Clear the PMCx bits for this pin */
+            *(volatile uint32 *)((volatile uint8 *)Port_Ptr + PORT_CTL_REG_OFFSET) &= ~(0x0000000F << (Port_Pin_Config[Pin].pin_num * 4));     /* Clear the PMCx bits for this pin */
+    }
+   /*Any other MODE (NOT ANALOG OR DIO)*/
+    else
+    {
+        /* Clear the corresponding bit in the GPIOAMSEL register to disable analog functionality on this pin */
+        CLEAR_BIT(*(volatile uint32*)((volatile uint8*)Port_Ptr+PORT_ANALOG_MODE_SEL_REG_OFFSET),Port_Pin_Config[Pin].pin_num);
+        /* Set the corresponding bit in the GPIODEN register to enable digital functionality on this pin */
+        SET_BIT(*(volatile uint32*)((volatile uint8*)Port_Ptr+PORT_DIGITAL_ENABLE_REG_OFFSET),Port_Pin_Config[Pin].pin_num);
+        /* Enable Alternative function for this pin by Setting the corresponding bit in GPIOAFSEL register */
+        SET_BIT(*(volatile uint32*)((volatile uint8*)Port_Ptr+PORT_ALT_FUNC_REG_OFFSET),Port_Pin_Config[Pin].pin_num);
+        /* Clear the PMCx bits for this pin */
+        *(volatile uint32 *)((volatile uint8 *)Port_Ptr + PORT_CTL_REG_OFFSET) &= ~(0x0000000F << (Port_Pin_Config[Pin].pin_num * 4));    
+        /*SETs the PMCx Bits for the specific mode*/ 
+        *(volatile uint32 *)((volatile uint8 *)Port_Ptr + PORT_CTL_REG_OFFSET) |= (Port_Pin_Config[Pin].pin_mode << (Port_Pin_Config[Pin].pin_num * 4));     
+    }
 #endif
