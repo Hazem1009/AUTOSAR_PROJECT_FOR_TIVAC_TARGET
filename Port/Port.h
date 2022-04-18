@@ -46,7 +46,7 @@
  *******************************************************************************/
 /* Standard AUTOSAR types */
 #include "Std_Types.h"
-#include "Port_Regs.h"
+/*#include "Port_Regs.h"*/
 
 /* AUTOSAR checking between Std Types and Port Modules */
 #if ((STD_TYPES_AR_RELEASE_MAJOR_VERSION != PORT_AR_RELEASE_MAJOR_VERSION)\
@@ -54,7 +54,7 @@
  ||  (STD_TYPES_AR_RELEASE_PATCH_VERSION != PORT_AR_RELEASE_PATCH_VERSION))
   #error "The AR version of Std_Types.h does not match the expected version"
 #endif
-/* Dio Pre-Compile Configuration Header file */
+/* Port Pre-Compile Configuration Header file */
 #include "Port_Cfg.h"
 
 /* AUTOSAR Version checking between Dio_Cfg.h and Dio.h files */
@@ -199,7 +199,7 @@ Description: Initializes the Port Driver module
 ************************************************************************************/
 void Port_Init( const Port_ConfigType* ConfigPtr );
 
-#if(PORT_SET_PIN_DIRECTION_API==STD_ON)
+
 /************************************************************************************
 Service ID[hex]: 0x01 
 Sync/Async: Synchronous 
@@ -211,6 +211,7 @@ Parameters (out): None
 Return value: None 
 Description: Sets the port pin direction
 ************************************************************************************/
+#if(PORT_SET_PIN_DIRECTION_API==STD_ON)
 void Port_SetPinDirection(Port_PinType Pin,Port_PinDirectionType Direction);
 
 #endif

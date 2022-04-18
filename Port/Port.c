@@ -208,6 +208,15 @@ void Port_Init(const Port_ConfigType * ConfigPtr )
 void Port_GetVersionInfo(Std_VersionInfoType* versioninfo)
 {
 #if (PORT_DEV_ERROR_DETECT == STD_ON)
+
+    if(PORT_NOT_INITIALIZED==Port_Status)
+    {
+        Det_ReportError(PORT_MODULE_ID,PORT_INSTANCE_ID,PORT_SET_PIN_DIRECTION_SID,PORT_E_UNINIT);
+    }
+    else
+    {
+        /*Do nothing*/
+    }
 	/* Check if input pointer is not Null pointer */
 	if(NULL_PTR == versioninfo)
 	{
@@ -216,7 +225,7 @@ void Port_GetVersionInfo(Std_VersionInfoType* versioninfo)
 				PORT_GET_VERSION_INFO_SID, PORT_E_PARAM_POINTER);
 	}
 	else
-#endif /* (PORT_DEV_ERROR_DETECT == STD_ON) */
+#endif 
 	{
 		/* Copy the vendor Id */
 		versioninfo->vendorID = (uint16)PORT_VENDOR_ID;
@@ -231,3 +240,70 @@ void Port_GetVersionInfo(Std_VersionInfoType* versioninfo)
 	}
 }
 #endif
+
+/************************************************************************************
+Service ID[hex]: 0x01 
+Sync/Async: Synchronous 
+Reentrancy: Reentrant 
+Parameters (in): Pin       - Port Pin ID number
+                Direction - Port Pin Direction
+Parameters(inout): None 
+Parameters (out): None 
+Return value: None 
+Description: Sets the port pin direction
+************************************************************************************/
+#if(PORT_SET_PIN_DIRECTION_API==STD_ON)
+void Port_SetPinDirection(Port_PinType Pin,Port_PinDirectionType Direction)
+{
+    #if(PORT_DEV_ERROR_DETECT)
+        if(PORT_NOT_INITIALIZED==Port_Status)
+        {
+            Det_ReportError(PORT_MODULE_ID,PORT_INSTANCE_ID,PORT_SET_PIN_DIRECTION_SID,PORT_E_UNINIT);
+        }
+        else
+        {
+            /*Do nothing*/
+        }
+        if(PORT_NUMBER_OF_PORT_PINS<=Pin)
+        {
+            Det_ReportError(PORT_MODULE_ID,PORT_INSTANCE_ID,PORT_SET_PIN_DIRECTION_SID,PORT_E_PARAM_PIN);
+        }
+        else
+        {
+            
+        }
+        if(UNCHANGEABLE==Port_Pin_Config[Pin].pin_direction_changeable)
+        {
+            Det_ReportError(PORT_MODULE_ID,PORT_INSTANCE_ID,PORT_SET_PIN_DIRECTION_SID,PORT_E_DIRECTION_UNCHANGEABLE);
+        }
+    #endif
+    volatile uint32 * Port_Ptr = NULL_PTR; /* point to the required Port Registers base address */
+    switch(Port_Pin_Config[Pin].port_num){
+         case  PORTA_ID: Port_Ptr = (volatile uint32 *)GPIO_PORTA_BASE_ADDRESS; /* PORTA Base Address */
+         break;
+         case  PORTB_ID: Port_Ptr = (volatile uint32 *)GPIO_PORTB_BASE_ADDRESS; /* PORTB Base Address */
+         break;
+         case  PORTC_ID: Port_Ptr = (volatile uint32 *)GPIO_PORTC_BASE_ADDRESS; /* PORTC Base Address */
+         break;
+         case  PORTD_ID: Port_Ptr = (volatile uint32 *)GPIO_PORTD_BASE_ADDRESS; /* PORTD Base Address */
+         break;
+         case  PORTE_ID: Port_Ptr = (volatile uint32 *)GPIO_PORTE_BASE_ADDRESS; /* PORTE Base Address */
+         break;
+         case  PORTF_ID: Port_Ptr = (volatile uint32 *)GPIO_PORTF_BASE_ADDRESS; /* PORTF Base Address */
+         break;
+    }
+    if(PORT_PIN_OUT==Direction)
+    {
+         /* SET the corresponding bit in the GPIODIR register to configure it as Output pin */
+        SET_BIT(*(volatile uint32*)((volatile uint8*)Port_Ptr+PORT_DIR_REG_OFFSET),Port_Pin_Config[Pin].pin_num);
+    }
+    else
+    {
+         /* clear the corresponding bit in the GPIODIR register to configure it as input pin */
+        CLEAR_BIT(*(volatile uint32*)((volatile uint8*)Port_Ptr+PORT_DIR_REG_OFFSET),Port_Pin_Config[Pin].pin_num);
+    }
+
+}
+
+#endif
+
