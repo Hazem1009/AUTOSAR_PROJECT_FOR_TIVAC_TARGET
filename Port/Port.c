@@ -6,7 +6,7 @@
  *
  * Description: Source file for TM4C123GH6PM Microcontroller - Port Driver.
  *
- * Author: Mohamed Tarek
+ * Author: Hazem Hisham
  ******************************************************************************/
 
 #include "Port.h"
@@ -188,7 +188,46 @@ void Port_Init(const Port_ConfigType * ConfigPtr )
             /*SETs the PMCx Bits for the specific mode*/ 
             *(volatile uint32 *)((volatile uint8 *)Port_Ptr + PORT_CTL_REG_OFFSET) |= (Port_Pin_Config[pin_index].pin_mode << (Port_Pin_Config[pin_index].pin_num * 4));     
         }
+
     }
      /*Set the module state to initialized*/
     Port_Status= PORT_INITIALIZED;
 }
+/*******************************************************************************
+* Service Name: Port_GetVersionInfo
+* Service ID[hex]: 0x03
+* Sync/Async: Synchronous
+* Reentrancy: Non Reentrant
+* Parameters (in): None
+* Parameters (inout): None
+* Parameters (out): versioninfo - Pointer to where to store the version info
+* Return value: None
+* Description: Returns the version information of this module
+********************************************************************************/
+#if (PORT_VERSION_INFO_API == STD_ON)
+void Port_GetVersionInfo(Std_VersionInfoType* versioninfo)
+{
+#if (PORT_DEV_ERROR_DETECT == STD_ON)
+	/* Check if input pointer is not Null pointer */
+	if(NULL_PTR == versioninfo)
+	{
+		/* Report to DET  */
+		Det_ReportError(PORT_MODULE_ID, PORT_INSTANCE_ID,
+				PORT_GET_VERSION_INFO_SID, PORT_E_PARAM_POINTER);
+	}
+	else
+#endif /* (PORT_DEV_ERROR_DETECT == STD_ON) */
+	{
+		/* Copy the vendor Id */
+		versioninfo->vendorID = (uint16)PORT_VENDOR_ID;
+		/* Copy the module Id */
+		versioninfo->moduleID = (uint16)PORT_MODULE_ID;
+		/* Copy Software Major Version */
+		versioninfo->sw_major_version = (uint8)PORT_SW_MAJOR_VERSION;
+		/* Copy Software Minor Version */
+		versioninfo->sw_minor_version = (uint8)PORT_SW_MINOR_VERSION;
+		/* Copy Software Patch Version */
+		versioninfo->sw_patch_version = (uint8)PORT_SW_PATCH_VERSION;
+	}
+}
+#endif
