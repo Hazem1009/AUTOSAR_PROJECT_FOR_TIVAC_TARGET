@@ -61,6 +61,7 @@
  
 /*************************START OF PORTA PINS MODES**************/
 #define PORT_PIN_MODE_DIO                          (0U)
+#define PORT_PIN_MODE_ANALOG                       (15U)
 /*PA0 modes*/ 
 #define PORT_PA0_MODE_U0Rx                         (1U)
 #define PORT_PA0_MODE_CAN1Rx                       (8U)
