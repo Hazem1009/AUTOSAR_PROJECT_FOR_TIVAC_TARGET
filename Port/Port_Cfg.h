@@ -41,6 +41,7 @@
 #define PORT_NUMBER_OF_PORT_PINS             (43U)
 /*Number of Modes for Target MC*/
 #define PORT_NUMBER_OF_PINS_MODES            (16U)
+
 /****************************Port IDS************************/
 #define PORTA_ID                             (0U)
 #define PORTB_ID                             (1U)
@@ -56,7 +57,7 @@
 #define PORT_PIN4_ID                              (4U)
 #define PORT_PIN5_ID                              (5U)
 #define PORT_PIN6_ID                              (6U)
-#define PORT_PIN7_ID                               (7U)
+#define PORT_PIN7_ID                              (7U)
  
 /*************************MODES FOR EACH PIN****** ************/
  
