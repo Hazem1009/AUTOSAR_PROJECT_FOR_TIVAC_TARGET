@@ -188,7 +188,6 @@ void Port_Init(const Port_ConfigType * ConfigPtr )
             /*SETs the PMCx Bits for the specific mode*/ 
             *(volatile uint32 *)((volatile uint8 *)Port_Ptr + PORT_CTL_REG_OFFSET) |= (Port_Pin_Config[pin_index].pin_mode << (Port_Pin_Config[pin_index].pin_num * 4));     
         }
-            /* Set the corresponding bit in the GPIODEN register to enable digital functionality on this pin */
     }
      /*Set the module state to initialized*/
     Port_Status= PORT_INITIALIZED;
