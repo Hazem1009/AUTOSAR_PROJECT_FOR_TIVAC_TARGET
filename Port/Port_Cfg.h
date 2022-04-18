@@ -39,7 +39,8 @@
 #define PORT_VERSION_INFO_API                (STD_ON)
 /*Number of Target MC pins*/
 #define PORT_NUMBER_OF_PORT_PINS             (43U)
-
+/*Number of Modes for Target MC*/
+#define PORT_NUMBER_OF_PINS_MODES
 /****************************Port IDS************************/
 #define PORTA_ID                             (0U)
 #define PORTB_ID                             (1U)
