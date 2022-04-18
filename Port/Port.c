@@ -256,6 +256,7 @@ Description: Sets the port pin direction
 void Port_SetPinDirection(Port_PinType Pin,Port_PinDirectionType Direction)
 {
     #if(PORT_DEV_ERROR_DETECT)
+
         if(PORT_NOT_INITIALIZED==Port_Status)
         {
             Det_ReportError(PORT_MODULE_ID,PORT_INSTANCE_ID,PORT_SET_PIN_DIRECTION_SID,PORT_E_UNINIT);
@@ -305,5 +306,23 @@ void Port_SetPinDirection(Port_PinType Pin,Port_PinDirectionType Direction)
 
 }
 
-#endif
+#endif 
 
+/*******************************************************************************
+* Service Name: Port_SetPinMode
+* Service ID[HEX]: 0x04
+* Sync/Async: Synchronous
+* Reentrancy: Reentrant
+* Parameters (in): Pin  - Port Pin ID number
+*                  Mode - New Port Pin mode to be set on port pin
+* Parameters (inout): None
+* Parameters (out): None
+* Return value: None
+* Description: Sets the port pin mode
+********************************************************************************/
+#if(STD_ON==PORT_SET_PIN_MODE_API)
+void Port_SetPinMode(Port_PinType Pin,Port_PinModeType Mode)
+{
+
+}
+#endif
