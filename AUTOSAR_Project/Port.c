@@ -85,6 +85,7 @@ void Port_Init(const Port_ConfigType * ConfigPtr )
         }
         else if( (Port_Pin_Config[pin_index].port_num== PORTC_ID) && (Port_Pin_Config[pin_index].pin_num<= PORT_PIN3_ID) ) /* PC0 to PC3 */
         {
+            continue;
             /* Do Nothing ...  this is the JTAG pins */
         }
         else
