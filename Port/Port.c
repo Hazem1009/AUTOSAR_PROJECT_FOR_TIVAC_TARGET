@@ -78,13 +78,14 @@ void Port_Init(const Port_ConfigType * ConfigPtr )
         SYSCTL_REGCGC2_REG |= (1<<(Port_Pin_Config[pin_index].port_num));
         delay = SYSCTL_REGCGC2_REG;
     
-        if( ((Port_Pin_Config[pin_index].port_num == PORTD_ID) &&(Port_Pin_Config[pin_index].port_num == PORTF_ID) && (Port_Pin_Config[pin_index].pin_num== PORT_PIN7_ID)) || ((Port_Pin_Config[pin_index].port_num == PORTF_ID) && (Port_Pin_Config[pin_index].pin_num == 0)) ) /* PD7 or PF0 */
+        if( ((Port_Pin_Config[pin_index].port_num == PORTD_ID) && (Port_Pin_Config[pin_index].pin_num== PORT_PIN7_ID)) || ((Port_Pin_Config[pin_index].port_num == PORTF_ID) && (Port_Pin_Config[pin_index].pin_num == 0)) ) /* PD7 or PF0 */
         {
             *(volatile uint32 *)((volatile uint8 *)Port_Ptr + PORT_LOCK_REG_OFFSET) = 0x4C4F434B;                     /* Unlock the GPIOCR register */   
             SET_BIT(*(volatile uint32 *)((volatile uint8 *)Port_Ptr + PORT_COMMIT_REG_OFFSET) , Port_Pin_Config[pin_index].pin_num);  /* Set the corresponding bit in GPIOCR register to allow changes on this pin */
         }
         else if( (Port_Pin_Config[pin_index].port_num== PORTC_ID) && (Port_Pin_Config[pin_index].pin_num<= PORT_PIN3_ID) ) /* PC0 to PC3 */
         {
+            continue;
             /* Do Nothing ...  this is the JTAG pins */
         }
         else
